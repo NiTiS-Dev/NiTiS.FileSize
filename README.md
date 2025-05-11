@@ -27,7 +27,7 @@ dotnet add package NiTiS.FileSize
 
 ## Contributing
 Contributions are welcome!
-Please read [CONTRIBUTING.md](https://github.com/NiTiS-Dev/NiTiS.FileSize/blob/stable/CONTRIBUTING.md) before making any contribution to repository.
+Please read [CONTRIBUTING.md](https://github.com/NiTiS-Dev/NiTiS.FileSize/blob/dev/CONTRIBUTING.md) before making any contribution to repository.
 
 ## License
 This project licensed under [MIT license](https://raw.githubusercontent.com/NiTiS-Dev/NiTiS.FileSize/refs/heads/dev/LICENSE)
