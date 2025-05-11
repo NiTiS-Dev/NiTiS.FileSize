@@ -1,0 +1,22 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{1A7118EA-D78E-4724-91D4-4EFE9054D97E}"
+	ProjectSection(SolutionItems) = preProject
+		build\common.props = build\common.props
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiTiS.FileSize", "src\NiTiS.FileSize\NiTiS.FileSize.csproj", "{719E724F-32A2-4B01-82E6-825238A7F825}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+					Debug|Any CPU = Debug|Any CPU
+					Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+				GlobalSection(ProjectConfigurationPlatforms) = postSolution
+					{719E724F-32A2-4B01-82E6-825238A7F825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+					{719E724F-32A2-4B01-82E6-825238A7F825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+				EndGlobalSection
+EndGlobal
