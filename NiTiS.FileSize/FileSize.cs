@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 
 namespace NiTiS;
@@ -7,7 +9,7 @@ namespace NiTiS;
 /// Represents the size of a file.
 /// </summary>
 [DataContract]
-public partial struct FileSize : IComparable<FileSize>, IEquatable<FileSize>
+public partial struct FileSize : IComparable<FileSize>, IEquatable<FileSize>, IFormattable
 {
 	[IgnoreDataMember]
 	private ulong _bytes;
@@ -22,15 +24,62 @@ public partial struct FileSize : IComparable<FileSize>, IEquatable<FileSize>
 		set => _bytes = value;
 	}
 
+
+	/// <summary>
+	/// Gets the file size, in bits.
+	/// </summary>
 	public ulong Bits => _bytes * BitsPerByte;
 
+	/// <summary>
+	/// Gets the file size, in kilobytes.
+	/// </summary>
 	public double Kilobytes => _bytes / (double)BytesPerKilobyte;
 
+	/// <summary>
+	/// Gets the file size, in megabytes.
+	/// </summary>
 	public double Megabytes => _bytes / (double)BytesPerMegabyte;
 
+	/// <summary>
+	/// Gets the file size, in gigabytes.
+	/// </summary>
 	public double Gigabytes => _bytes / (double)BytesPerGigabyte;
 
+	/// <summary>
+	/// Gets the file size, in terabytes.
+	/// </summary>
 	public double Terabytes => _bytes / (double)BytesPerTerabyte;
+
+	/// <summary>
+	/// Gets the file size, in petabytes.
+	/// </summary>
+	public double Petabytes => _bytes / (double)BytesPerPetabyte;
+
+	/// <summary>
+	/// Gets the file size, in kibibytes.
+	/// </summary>
+	public double Kibibytes => _bytes / (double)BytesPerKibibyte;
+
+	/// <summary>
+	/// Gets the file size, in mebibytes.
+	/// </summary>
+	public double Mebibytes => _bytes / (double)BytesPerMebibyte;
+
+	/// <summary>
+	/// Gets the file size, in gibibytes.
+	/// </summary>
+	public double Gibibytes => _bytes / (double)BytesPerGibibyte;
+
+	/// <summary>
+	/// Gets the file size, in tebibytes.
+	/// </summary>
+	public double Tebibytes => _bytes / (double)BytesPerTebibyte;
+
+	/// <summary>
+	/// Gets the file size, in pebibytes.
+	/// </summary>
+	public double Pebibytes => _bytes / (double)BytesPerPebibyte;
+
 
 	/// <summary>
 	/// Initializes a <see cref="FileSize"/> instance with specified byte amount.
@@ -207,5 +256,116 @@ public partial struct FileSize : IComparable<FileSize>, IEquatable<FileSize>
 	public static bool operator <=(FileSize left, FileSize right)
 	{
 		return left._bytes <= right._bytes;
+	}
+
+	public override string ToString()
+	{
+		return ToString(null, null, FileSizeSystem.Decimal);
+	}
+
+	public string ToString(string? format, IFormatProvider? formatProvider)
+	{
+		return ToString(format, formatProvider, FileSizeSystem.Decimal);
+	}
+
+	public string ToString(string? format, IFormatProvider? formatProvider, FileSizeSystem system)
+	{
+		return system switch
+		{
+			FileSizeSystem.OnlyBytes => ToString(format, formatProvider, FileSizeUnit.Byte),
+			FileSizeSystem.Decimal => ToStringDecimal(format, formatProvider),
+			FileSizeSystem.Binary => ToStringBinary(format, formatProvider),
+			_ => throw new ArgumentOutOfRangeException(nameof(system), system, null)
+		};
+	}
+
+	private string ToStringDecimal(string? format, IFormatProvider? formatProvider)
+	{
+		return _bytes switch
+		{
+			>= BytesPerPetabyte => ToString(format, formatProvider, FileSizeUnit.Petabyte),
+			>= BytesPerTerabyte => ToString(format, formatProvider, FileSizeUnit.Terabyte),
+			>= BytesPerGigabyte => ToString(format, formatProvider, FileSizeUnit.Gigabyte),
+			>= BytesPerMegabyte => ToString(format, formatProvider, FileSizeUnit.Megabyte),
+			>= BytesPerKilobyte => ToString(format, formatProvider, FileSizeUnit.Kilobyte),
+			_ => ToString(format, formatProvider, FileSizeUnit.Byte)
+		};
+	}
+
+	private string ToStringBinary(string? format, IFormatProvider? formatProvider)
+	{
+		return _bytes switch
+		{
+			>= BytesPerPebibyte => ToString(format, formatProvider, FileSizeUnit.Pebibyte),
+			>= BytesPerTebibyte => ToString(format, formatProvider, FileSizeUnit.Tebibyte),
+			>= BytesPerGibibyte => ToString(format, formatProvider, FileSizeUnit.Gibibyte),
+			>= BytesPerMebibyte => ToString(format, formatProvider, FileSizeUnit.Mebibyte),
+			>= BytesPerKibibyte => ToString(format, formatProvider, FileSizeUnit.Kibibyte),
+			_ => ToString(format, formatProvider, FileSizeUnit.Byte)
+		};
+	}
+
+	public string ToString(string? format, IFormatProvider? formatProvider, FileSizeUnit unit)
+	{
+		if (unit == FileSizeUnit.Bit)
+		{
+			return Bits.ToString(format, formatProvider) + " b";
+		}
+
+		if (unit == FileSizeUnit.Byte)
+		{
+			return Bytes.ToString(format, formatProvider) + " B";
+		}
+
+		double value = unit switch
+		{
+			FileSizeUnit.Kilobyte => Kilobytes,
+			FileSizeUnit.Megabyte => Megabytes,
+			FileSizeUnit.Gigabyte => Gigabytes,
+			FileSizeUnit.Terabyte => Terabytes,
+			FileSizeUnit.Petabyte => Petabytes,
+			FileSizeUnit.Kibibyte => Kibibytes,
+			FileSizeUnit.Mebibyte => Mebibytes,
+			FileSizeUnit.Gibibyte => Gibibytes,
+			FileSizeUnit.Tebibyte => Tebibytes,
+			FileSizeUnit.Pebibyte => Pebibytes,
+			_ => throw new InvalidEnumArgumentException(),
+		};
+
+		string suffix = unit switch
+		{
+			FileSizeUnit.Kilobyte => " KB",
+			FileSizeUnit.Megabyte => " MB",
+			FileSizeUnit.Gigabyte => " GB",
+			FileSizeUnit.Terabyte => " TB",
+			FileSizeUnit.Petabyte => " PB",
+			FileSizeUnit.Kibibyte => " KiB",
+			FileSizeUnit.Mebibyte => " MiB",
+			FileSizeUnit.Gibibyte => " GiB",
+			FileSizeUnit.Tebibyte => " TiB",
+			FileSizeUnit.Pebibyte => " PiB"
+		};
+
+		return value.ToString(format, formatProvider) + suffix;
+	}
+
+	public string ToString(FileSizeSystem system)
+	{
+		return ToString(null, null, system);
+	}
+
+	public string ToString(FileSizeUnit unit)
+	{
+		return ToString(null, null, unit);
+	}
+
+	public string ToString(string? format, FileSizeSystem system)
+	{
+		return ToString(format, null, system);
+	}
+
+	public string ToString(string? format, FileSizeUnit unit)
+	{
+		return ToString(format, null, unit);
 	}
 }

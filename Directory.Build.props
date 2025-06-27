@@ -8,7 +8,7 @@
 		<TargetFrameworks>net9.0;net6.0;net4.8</TargetFrameworks>
 
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)/../outPackages</PackageOutputPath>
+		<PackageOutputPath>$(MSBuildThisFileDirectory)/outPackages</PackageOutputPath>
 
 		<LangVersion>latest</LangVersion>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -16,7 +16,7 @@
 		<Nullable>enable</Nullable>
 		<RootNamespace>NiTiS</RootNamespace>
 
-		<VersionPrefix>1</VersionPrefix>
+		<VersionPrefix>1.0.0</VersionPrefix>
 
 		<NoWarn>$(NoWarn);IDE0290;IDE0305</NoWarn>
 

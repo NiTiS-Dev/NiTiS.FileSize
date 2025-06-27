@@ -11,15 +11,15 @@ public enum FileSizeSystem
 	OnlyBytes = 0,
 
 	/// <summary>
-	/// Elements of decimal system have value equals to power of 1000.
+	/// Elements of decimal system have value equals to power of 10.
 	/// </summary>
 	Decimal = 1,
 
 	/// <summary>
-	/// Elements of binary system have value equals to power of 1024.
+	/// Elements of binary system have value equals to power of 2.
 	/// </summary>
 	/// <remarks>
-	/// Windows uses a binary system, but uses unit names from decimal.
+	/// Windows uses a binary system, but uses unit names from metric.
 	/// </remarks>
 	Binary = 2,
 }
