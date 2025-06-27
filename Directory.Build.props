@@ -51,18 +51,18 @@
 		</PropertyGroup>
 
 		<ItemGroup>
-			<None Include="$(MSBuildThisFileDirectory)../public/logo.png" Pack="true" PackagePath="/" />
+			<None Include="$(MSBuildThisFileDirectory)/logo.png" Pack="true" PackagePath="/" />
 		</ItemGroup>
 	</Target>
 
 	<!-- Setup README file -->
 	<Target Name="MutableString_AddREADME" Condition="'$(IsPackable)' == 'true'">
 		<PropertyGroup>
-			<PackageReadmeFile>NUGET_README.md</PackageReadmeFile>
+			<PackageReadmeFile>README.md</PackageReadmeFile>
 		</PropertyGroup>
 
 		<ItemGroup>
-			<None Include ="$(MSBuildThisFileDirectory)../public/NUGET_README.md" Pack="true" PackagePath="/" />
+			<None Include ="$(MSBuildThisFileDirectory)/README.md" Pack="true" PackagePath="/" />
 		</ItemGroup>
 	</Target>
 
